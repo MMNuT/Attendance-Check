@@ -1,0 +1,13 @@
+.o-loginContainer {
+  background: var(--main-yellow);
+  height: 100%;
+  position: relative;
+  color: var(--white);
+  overflow: hidden;
+}
+
+.loginContainer__title {
+  font-family: 'Dokdo', cursive;
+  text-align: center;
+  margin-top: 20px;
+}

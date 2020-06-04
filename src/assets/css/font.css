@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'JasonHandwriting3';
+  src: url(../font/JasonHandwriting3.ttf) format("truetype");
+}
+@font-face {
+  font-family: 'Dokdo';
+  src: url(../font/Dokdo-Regular.ttf) format('truetype');
+}
+
+.f-size30 {
+  font-size: 30px !important;
+}
+.f-size40 {
+  font-size: 40px !important;
+}
+.f-size50 {
+  font-size: 50px !important;
+}
+.f-size100 {
+  font-size: 100px !important;
+}

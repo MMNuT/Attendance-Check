@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100vh;
+}
+
+body,
+#app {
+  height: 100%;
+  font-family: "JasonHandwriting3";
+  font-size: 30px;
+}
+
+input,
+button {
+  outline: none;
+  vertical-align: middle;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}

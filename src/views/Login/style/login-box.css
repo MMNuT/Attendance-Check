@@ -1,0 +1,25 @@
+@import './permission.css';
+
+.c-login {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.o-loginContainer .c-loginBox {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 600px;
+
+  overflow: hidden;
+
+  border: 5px solid var(--white);
+  padding: 15px;
+}
+
+.c-loginBox .c-loginBox__title {
+  text-align: center;
+  font-family: 'Dokdo', cursive;
+}

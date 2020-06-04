@@ -1,0 +1,95 @@
+/* 輸入匡 */
+input.el-input__inner {
+  color: var(--main-black);
+  font-family: 'JasonHandwriting3';
+  font-size: 30px;
+}
+input.el-input__inner:focus {
+  border-color: var(--main-blue);
+}
+
+/* 按鈕 */
+button.el-button {
+  font-family: 'JasonHandwriting3';
+  font-size: 30px;
+  color: var(--main-black);
+}
+
+button.el-button:active,
+button.el-button:focus {
+  background-color: var(--white);
+  color: var(--main-black);
+}
+button.el-button:hover {
+  background-color: var(--main-black);
+  color: var(--white);
+}
+
+/* 表單驗證錯誤訊息 */
+div.el-form-item__error {
+  font-size: 20px;
+  color: var(--main-red);
+}
+.el-form-item.is-error input.el-input__inner {
+  border: 3px solid var(--main-red);
+  border-color: var(--main-red);
+}
+
+/* 側邊欄 */
+ul.el-menu {
+  border-right: 0;
+}
+li.el-menu-item,
+div.el-submenu__title {
+  font-size: 20px;
+  transition: none;
+}
+li.el-menu-item:hover span,
+div.el-submenu__title:hover span {
+  background: var(--white)!important;
+  color: var(--black)!important;
+  border-radius: 5px 0 0 5px;
+}
+
+/* 表單樣式 */
+/*
+.el-form-item.is-error .el-input__inner {
+  border: 0;
+  border-bottom: 3px solid var(--error-color);
+}
+
+.el-form-item__content .el-form-item__error {
+  color: var(--error-color);
+}
+
+.el-form-item.margin-button0 {
+  margin-bottom: 0;
+}
+*/
+
+
+/* 按鈕樣式 */
+/*
+.el-button.el-button--default:hover {
+  color: var(--white);
+  background: var(--background-color)
+}
+.el-button.el-button--default:active,
+.el-button.el-button--default:focus {
+  color: var(--blue-2020);
+  background: var(--white);
+}
+
+.el-button.el-button--default:active {
+  transform: scale(.8)
+}
+
+
+.el-table__body .el-table__row td {
+  padding: 0;
+}
+div.el-table {
+  max-width: 800px;
+  margin: auto;
+}
+*/

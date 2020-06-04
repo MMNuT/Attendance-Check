@@ -1,0 +1,16 @@
+.logoBox {
+  background: var(--main-yellow);
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 70px;
+}
+.logoBox__logo {
+  background: var(--black);
+  color: var(--white);
+  width: 50px;
+  text-align: center;
+  font-family: 'Dokdo';
+  border-radius: 5px;
+}

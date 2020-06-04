@@ -1,0 +1,44 @@
+.c-loginBox .c-permissionButtonBox {
+  height: 60px;
+}
+
+.c-permissionButtonBox .loading {
+  line-height: 40px;
+  font-size: 40px;
+  font-weight: 900;
+  display: flex;
+  font-family: 'Dokdo';
+}
+.c-permissionButtonBox--buttonBox {
+  display: flex;
+  justify-content: space-between;
+}
+.c-permissionButtonBox .permissionButtonBox--button {
+}
+.c-permissionButtonBox .permissionButtonBox--button.current {
+  background-color: var(--main-black);
+  color: var(--white);
+}
+.c-login .c-loginBox--final {
+  text-align: right;
+  margin-top: 15px;
+}
+
+
+/* loading 動畫 */
+/* 旋轉吧 I */
+.c-permissionButtonBox .loading .rotateI {
+  display: block;
+  margin: 0 9px;
+  animation: rotate 3s linear infinite
+}
+/* 跳吧 L*/
+.c-permissionButtonBox .loading .railway-engine.train-go {
+  animation: train-go .8s linear;
+}
+/* 離開的火車 */
+.c-permissionButtonBox .loading.loading-out {
+  animation: loading-out 2s ease-in-out;
+  animation-delay: .8s;
+  animation-fill-mode: forwards;
+}
