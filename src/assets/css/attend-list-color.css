@@ -1,0 +1,24 @@
+.attend .attendBox__title {
+  border: .3rem solid var(--main-green);
+}
+.attend .attendBox__name-box li::before {
+  background-color: var(--main-green);
+}
+.late .attendBox__title {
+  border: .3rem solid var(--main-yellow);
+}
+.late .attendBox__name-box li::before {
+  background-color: var(--main-yellow);
+}
+.skip .attendBox__title {
+  border: .3rem solid var(--main-red);
+}
+.skip .attendBox__name-box li::before {
+  background-color: var(--main-red);
+}
+.leave .attendBox__title {
+  border: .3rem solid var(--main-blue);
+}
+.leave .attendBox__name-box li::before {
+  background-color: var(--main-blue);
+}

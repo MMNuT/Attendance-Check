@@ -1,17 +1,25 @@
+/* vertical-align */
+.el-date-editor,
+.el-select {
+  vertical-align: top;
+}
+
 /* 輸入匡 */
 input.el-input__inner {
   color: var(--main-black);
   font-family: 'JasonHandwriting3';
-  font-size: 30px;
+  font-size: 3rem;
 }
-input.el-input__inner:focus {
+input.el-input__inner:focus,
+textarea.el-textarea__inner:focus,
+div.el-select .el-input.is-focus .el-input__inner {
   border-color: var(--main-blue);
 }
 
 /* 按鈕 */
 button.el-button {
   font-family: 'JasonHandwriting3';
-  font-size: 30px;
+  font-size: 3rem;
   color: var(--main-black);
 }
 
@@ -27,69 +35,125 @@ button.el-button:hover {
 
 /* 表單驗證錯誤訊息 */
 div.el-form-item__error {
-  font-size: 20px;
+  font-size: 2rem;
   color: var(--main-red);
 }
 .el-form-item.is-error input.el-input__inner {
-  border: 3px solid var(--main-red);
+  border: .3rem solid var(--main-red);
   border-color: var(--main-red);
+}
+
+/* 表單 */
+.el-textarea__inner {
+  height: 15rem;
+}
+
+/* 必填 */
+div.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
+  color: var(--main-red);
 }
 
 /* 側邊欄 */
 ul.el-menu {
   border-right: 0;
 }
-li.el-menu-item,
+.menu-wrapper li.el-menu-item,
 div.el-submenu__title {
-  font-size: 20px;
+  font-size: 2.3rem;
   transition: none;
+  padding-right: 0;
 }
-li.el-menu-item:hover span,
-div.el-submenu__title:hover span {
+li.el-menu-item:hover,
+div.el-submenu__title:hover {
   background: var(--white)!important;
   color: var(--black)!important;
-  border-radius: 5px 0 0 5px;
+}
+li.el-menu-item:hover i,
+div.el-submenu__title:hover i {
+  color: black;
+  font-weight: 900;
 }
 
-/* 表單樣式 */
-/*
-.el-form-item.is-error .el-input__inner {
-  border: 0;
-  border-bottom: 3px solid var(--error-color);
+div.el-submenu__title i {
+  color: var(--black);
+  font-weight: 900;
 }
 
-.el-form-item__content .el-form-item__error {
-  color: var(--error-color);
+.el-submenu__title span {
+  transition: display .5s ease;
+  transition-delay: .5s;
 }
 
-.el-form-item.margin-button0 {
-  margin-bottom: 0;
-}
-*/
-
-
-/* 按鈕樣式 */
-/*
-.el-button.el-button--default:hover {
-  color: var(--white);
-  background: var(--background-color)
-}
-.el-button.el-button--default:active,
-.el-button.el-button--default:focus {
-  color: var(--blue-2020);
-  background: var(--white);
+/* 佈局 */
+.el-main {
+  height: calc(100vh - 6rem);
 }
 
-.el-button.el-button--default:active {
-  transform: scale(.8)
+/* 表格 */
+div.el-table {
+  font-size: 2rem;
+  font-family: 'jf-openhuninn';
+}
+div.el-table::before {
+  display: none;
 }
 
+.el-table__row {
+  transition: .5s all ease;
+}
+.el-table--enable-row-hover table.el-table__body tr:hover>td {
+  background: none;
+}
+.el-table--enable-row-hover table.el-table__body tr:hover {
+  background: var(--gradint-yellow);
+}
 
-.el-table__body .el-table__row td {
+.pointer .el-table__row,
+.el-table .pointer {
+  cursor: pointer;
+}
+
+/* 暫無數據的 div */
+.el-table__empty-block {
+  border-bottom: .1rem solid #EBEEF5;
+}
+
+/* 彈框 */
+div.el-dialog__header {
+  height: 4.5rem;
   padding: 0;
 }
-div.el-table {
-  max-width: 800px;
-  margin: auto;
+
+button.el-dialog__headerbtn {
+  top: 1.5rem;
 }
-*/
+
+div.el-dialog__body {
+  padding: 0 2rem;
+}
+
+/* 按鈕丟到外面 */
+.el-dialog__body .button-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translateY(calc(100% + 2rem));
+}
+
+/* 下拉選匡 */
+.el-popper {
+  font-family: 'jf-openhuninn';
+}
+
+
+div.el-date-editor input.el-range-input,
+div.el-date-editor span.el-range-separator {
+  font-family: 'JasonHandwriting3';
+  font-size: 3rem;
+}
+
+div.el-date-editor span.el-range-separator {
+  width: 3rem;
+  padding: 0;
+}
+

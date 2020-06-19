@@ -26,7 +26,8 @@ import {
   Select,
   Option,
   DatePicker,
-  Dialog
+  Dialog,
+  Popover
 } from 'element-ui'
 
 // import lang from 'element-ui/lib/locale/lang/zh-TW'
@@ -63,5 +64,6 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(DatePicker)
 Vue.use(Dialog)
+Vue.use(Popover)
 Vue.prototype.$_message = Message
 Vue.prototype.$_confirm = MessageBox.confirm

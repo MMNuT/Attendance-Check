@@ -1,12 +1,17 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="24"><div class="grid-content bg-purple-dark"><h2>今日課表</h2></div></el-col>
+      <el-col :span="24">
+        <h2>今日課表</h2>
+        <span>{{ time }}</span>
+      </el-col>
     </el-row>
-    <el-table :data="todaySchedule" style="width: 100%" highlight-current-row @current-change="handleCurrentChange">
-      <el-table-column prop="LessonOrderName" label="Period" width="180"></el-table-column>
-      <el-table-column prop="ClassName" label="Class" width="180"></el-table-column>
-      <el-table-column prop="Subject" label="Subject"></el-table-column>
+    <el-table :data="todaySchedule" highlight-current-row @current-change="handleCurrentChange" class="today-schedule pointer">
+      <!-- 空數據時的插槽 -->
+      <template #empty>等待, 我隨時隨地在等待</template>
+      <el-table-column prop="LessonOrderName" label="Period" width="100"></el-table-column>
+      <el-table-column prop="ClassName" label="Class" width="130"></el-table-column>
+      <el-table-column prop="Subject" label="Subject" min-width="160"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -14,16 +19,25 @@
 <script>
 import { getTodaySchedule } from '@/api/teacher-lecturer'
 import { getClassData } from '@/api/teacher-public'
-import { periodFormat } from '@/utils/format'
+import { periodFormat, timeFormat } from '@/utils/format'
+import { resize } from '@/mixins'
 
 export default {
+  mixins: [resize],
   data () {
     return {
-      todaySchedule: []
+      todaySchedule: [],
+      time: '0000-00-00 00:00:00'
+    }
+  },
+  computed: {
+    tableSize () {
+      return (this.size / 3) - 5
     }
   },
   created () {
     this.getTodaySchedule()
+    this.dynamicTime()
   },
   methods: {
     async getTodaySchedule () {
@@ -51,19 +65,37 @@ export default {
       }
     },
     periodFormat,
-    async handleCurrentChange ({ ClassId, LessonOrder, ClassName }) {
+    async handleCurrentChange ({ ClassId, LessonOrder, ClassName, Subject, LessonOrderName }) {
+      console.log({ ClassId, LessonOrder, ClassName, Subject })
+      Subject = Subject || LessonOrderName
       try {
         const { data: StudentInfo, method } = await getClassData({ ClassId, LessonOrder })
         if (method === 'post') {
+          // 如果是 post, 他數據沒有出席狀態, 給個預設全部出席
           StudentInfo.forEach(student => { student.Attendance = 1 })
         }
-        this.$store.dispatch('lecturer/storeClassData', { StudentInfo, ClassName })
+        this.$store.dispatch('lecturer/storeClassData', { StudentInfo, ClassName, Subject })
         this.$store.dispatch('lecturer/storeTempRollCallParams', { params: { ClassId, LessonOrder }, method })
         this.$router.push({ path: `/lecturer/${ClassId}` })
       } catch (error) {
-
+        console.log(error)
       }
+    },
+    dynamicTime () {
+      setInterval(_ => {
+        this.time = timeFormat(new Date(), 'yyyy-mm-dd hh:mm:ss')
+      }, 1000)
     }
   }
 }
 </script>
+
+<style scoped>
+.el-col {
+  text-align: center;
+}
+.today-schedule {
+  max-width: 80rem;
+  margin: 0 auto 0;
+}
+</style>

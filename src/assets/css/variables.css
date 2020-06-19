@@ -1,32 +1,45 @@
 :root {
-  --background-color: #2E3347;
-  --blue-2020: #0f4c81;
-  --orange: #ff5100;
-  --error-color: #994B54;
-  
-  --burger-tomato: #d63031;
-  --burger-meat: #e17055;
-  --burger-vagetable: #badc58;
-  --burger-bread: #E3AE3C;
-
   /* 有用到 */
   --main-yellow: #E3AE3C;
   --main-jasmin: #EAB57F;
   --main-blue: #4A7D90;
   --main-green: #939249;
   --main-red: #C24F1A;
+  --main-pink: #914532;
+  --main-orange: #D17028;
+  --main-brown: #7C531A;
   --main-black: #524A47;
-  --black: #000;
 
+  --black: #000;
   --white: #fff;
 
+  --main-yellow-aaa: #05182a;
+  --main-red-aaa: #fff;
+  --main-black-aaa: #D5D5D5;
+  --main-green-aaa: #00202A;
 
+  /* 漸層 */
+  --gradint-yellow: linear-gradient(to right, rgba(246,211,101,.5), rgba(253,160,133,.5) );
+
+  font-size: 10px;
   /* 收集還沒用 */
-  --collect-green: #abc270;
-  --collect-yellow: #fec868;
-  --collect-orange: #fda769;
-  --collect-black: #473c33;
+}
 
-  /* 這個不錯 https://uiiiuiii.com/inspiration/1616219819.html */
-  /* 漸變參考 https://uiiiuiii.com/inspiration/1616201618.html */
+/* 出席狀態的顏色 */
+/* 出席狀態的顏色 */
+.attend {
+  background: var(--main-green);
+  color: var(--main-green-aaa);
+}
+.late {
+  background: var(--main-yellow);
+  color: var(--main-yellow-aaa);
+}
+.skip {
+  background: var(--main-red);
+  color: var(--main-red-aaa);
+}
+.leave {
+  background: var(--main-black);
+  color: var(--main-black-aaa);
 }

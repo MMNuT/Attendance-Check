@@ -3,11 +3,11 @@
   height: 100%;
   position: relative;
   color: var(--white);
-  overflow: hidden;
+  overflow: auto;
 }
 
 .loginContainer__title {
   font-family: 'Dokdo', cursive;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 2rem;
 }

@@ -1,0 +1,40 @@
+/* 確認家長連繫樣式 */
+/* 在查詢時，詳細記錄也用同一套cs, 所以拿到這裡寫
+   如果寫在個別的 vue style 下面的話，沒打開過該 vue 檔的話, 其他吃同一套樣式的會沒樣式可用
+   所以共用的東西別寫在個別的 vue 檔
+*/
+.fill__confirm-box .fill__confirm-title {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 2rem;
+  padding: .5rem;
+  width: 13rem;
+  text-align: justify;
+  overflow: hidden;
+  height: 4.6rem;
+}
+
+/* 為了讓 text-align: justify 起效果 */
+.fill__confirm-box .fill__confirm-title::after {
+  content: '.';
+  width: 100%;
+  display: inline-block;
+  height: 0;
+}
+
+.fill__confirm-content-box .fill__confirm-content {
+  flex: 1;
+}
+
+.step1 .fill__confirm-content-box {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.step1 .fill__confirm-title {
+  margin-right: 1rem;
+}
+
+.step2 .fill__confirm-content-box .fill__confirm-title {
+  display: inline-block;
+}

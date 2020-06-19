@@ -1,0 +1,31 @@
+.business-card {
+  background-image: linear-gradient(to right, #424141 0%, black 100%);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  height: 28rem;
+  padding: 2rem 3rem;
+}
+
+.business-card .student-name::after {
+  content: '';
+  display: block;
+  height: .1rem;
+  background: var(--main-yellow);
+  width: 40%;
+}
+.business-card .student-info-box {
+  font-family: 'jf-openhuninn';
+  font-size: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.business-card .student-info-box li {
+  display: flex;
+  margin-bottom: .5rem;
+}
+.student-info-box .student-info-key {
+  width: 4rem;
+}

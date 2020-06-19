@@ -1,0 +1,31 @@
+.c-head .sidebar-burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.c-head .sidebar-burger span {
+  display: block;
+  height: .2rem;
+  width: 2rem;
+  background: var(--black);
+  margin: 0 0 .2rem;
+}
+
+.c-head .sidebar-burger .sidebar-burger__breadtop {
+  height: 1rem;
+  border-radius: .5rem .5rem 0 0;
+}
+
+/* color */
+.c-head .sidebar-burger .sidebar-burger__bread {
+  background: var(--main-jasmin);
+}
+.c-head .sidebar-burger .sidebar-burger__tomato {
+  background: var(--main-red);
+}
+.c-head .sidebar-burger .sidebar-burger__meat {
+  background: var(--main-pink);
+}
+.c-head .sidebar-burger .sidebar-burger__vegetable {
+  background: var(--main-green);
+}

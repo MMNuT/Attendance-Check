@@ -1,12 +1,11 @@
 <template>
   <div v-if="!item.hidden" class="menu-wrapper">
-    <!-- 只有一個子路由, 且該子路由沒有子路由-->
     <template v-if="hasOneShowingChild(item.children, item) &&
-      (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
+      (!showingRouteMenuItem.children || showingRouteMenuItem.noShowingChildren) &&
       !item.alwaysShow">
-      <router-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown': !isNest}">
-          <item :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" :title="onlyOneChild.meta.title" />
+      <router-link v-if="showingRouteMenuItem.meta" :to="resolvePath(showingRouteMenuItem.path)">
+        <el-menu-item :index="resolvePath(showingRouteMenuItem.path)">
+          <item :icon="showingRouteMenuItem.meta.icon || (item.meta && item.meta.icon)" :title="showingRouteMenuItem.meta.title" />
         </el-menu-item>
       </router-link>
     </template>
@@ -20,7 +19,6 @@
         :is-nest="true"
         :item="child"
         :base-path="resolvePath(child.path)"
-        class="test1"
       />
     </el-submenu>
   </div>
@@ -31,7 +29,6 @@ import path from 'path'
 import Item from './Item'
 
 export default {
-  // 遞歸組件必備
   name: 'SidebarItem',
   components: { Item },
   props: {
@@ -39,18 +36,15 @@ export default {
       type: Object,
       required: true
     },
-    isNest: {
-      type: Boolean,
-      default: false
-    },
     basePath: {
       type: String,
       default: ''
     }
   },
   data () {
-    this.onlyOneChild = null
-    return {}
+    return {
+      showingRouteMenuItem: null
+    }
   },
   methods: {
     hasOneShowingChild (children = [], parent) {
@@ -59,7 +53,7 @@ export default {
         if (item.hidden) {
           return false
         } else {
-          this.onlyOneChild = item
+          this.showingRouteMenuItem = item
           return true
         }
       })
@@ -71,7 +65,7 @@ export default {
 
       // 沒有子路由: 顯示父路由
       if (showingChildren.length === 0) {
-        this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
+        this.showingRouteMenuItem = { ...parent, path: '', noShowingChildren: true }
         return true
       }
       return false
@@ -81,5 +75,12 @@ export default {
     }
   }
 }
-
 </script>
+
+<style>
+.menu-wrapper .el-menu-item > span,
+.menu-wrapper .el-submenu__title > span {
+  font-size: 30px;
+  font-weight: 900;
+}
+</style>

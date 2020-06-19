@@ -3,6 +3,9 @@
     <h1 class="loginContainer__title f-size50">
       <span class="f-size100">A</span>ttendance <span class="f-size100">C</span>heck
     </h1>
+    <h1 class="loginContainer__title f-size50 low576">
+      <span class="f-size100">A</span><span class="f-size100">C</span>
+    </h1>
     <div class="c-login">
       <div class="c-loginBox">
         <h2 class="c-loginBox__title f-size40">LOGIN</h2>
@@ -13,7 +16,7 @@
           </el-form-item>
           <el-form-item prop="Password">
             <h3 class="f-size30">密碼</h3>
-            <el-input v-model="loginInfo.Password"></el-input>
+            <el-input v-model="loginInfo.Password" show-password></el-input>
           </el-form-item>
           <el-form-item prop="Permission">
             <h3 class="f-size30">RULES</h3>
@@ -22,12 +25,13 @@
                 <span class="railway-engine" :class="{ 'train-go': loading.activeLeave }">L</span>OAD<span class="rotateI">I</span>NG...
               </div>
               <transition-group v-else tag="div" appear class="c-permissionButtonBox--buttonBox" name="">
-                <el-button
+                <div
                   v-for="permission in primissions"
                   :key="permission.pvalue"
                   class="permissionButtonBox--button"
-                  :class="{ current: loginInfo.Permission === permission.pvalue }"
-                  @click="loginInfo.Permission = permission.pvalue">{{ permission.Subject | justTwoWord }}</el-button>
+                  @click="loginInfo.Permission = permission.pvalue">
+                  <el-button :class="{ current: loginInfo.Permission === permission.pvalue }">{{ permission.Subject | justTwoWord }}</el-button>
+                </div>
               </transition-group>
             </div>
           </el-form-item>
@@ -48,6 +52,7 @@ import { URLSearchParamsformat } from '@/utils/format'
 export default {
   created () {
     this.getPermission()
+    this.clearLocalStorage()
   },
   data () {
     return {
@@ -55,8 +60,8 @@ export default {
       primissions: [],
       // 登入資料
       loginInfo: {
-        Account: 'hirohung0516@gmail.com',
-        Password: 'T123882981',
+        Account: 'hung@gmail.com',
+        Password: 'T195479867',
         Permission: ''
       },
       // 驗證規則
@@ -159,6 +164,10 @@ export default {
     // 重置表單
     resetForm () {
       this.$refs.ruleForm.resetFields()
+    },
+    clearLocalStorage () {
+      delete localStorage.copy
+      delete localStorage.complaintCopy
     }
   }
 }
@@ -167,6 +176,7 @@ export default {
 <style scoped>
 @import './style/index.css';
 @import './style/login-box.css';
+@import './style/low576.css';
 
 /* 過度動畫 */
 .v-enter {

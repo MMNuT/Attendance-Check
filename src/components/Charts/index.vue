@@ -1,14 +1,33 @@
 <template>
-  <div ref="test" :style="{height: '800px', width: '100%'}"></div>
+  <div ref="test" :style="{ height, width }"></div>
 </template>
 
 <script>
-import echarts from 'echarts'
+import echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import resize from './mixin/resize'
+
 export default {
+  mixizs: [resize],
   props: {
     option: {
       type: Object,
       require: true
+    },
+    width: {
+      type: String,
+      default: '100%'
+    },
+    height: {
+      type: String,
+      default: '100%'
+    }
+  },
+  data () {
+    return {
+      charts: null
     }
   },
   methods: {
@@ -18,10 +37,12 @@ export default {
       charts.on('mouseover', ev => {
         this.$emit('mouseover', ev)
       })
+      this.charts = charts
     }
   },
   watch: {
     option (...arg) {
+      console.log(...arg)
       this.getTodayAttendance()
     }
   }

@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.prototype.$http = axios
 
@@ -23,6 +25,7 @@ service.interceptors.request.use(
       // RFC 6750 的規範
       config.headers.Authorization = 'Bearer ' + getToken()
     }
+    NProgress.start()
     return config
   },
   error => {
@@ -35,13 +38,11 @@ service.interceptors.request.use(
 /**
  * customize code number:
  * @1 成功
- * @10008 非法令牌
- * @10012 其他客戶端已經登入
- * @10014 過期令牌
  */
 
 service.interceptors.response.use(
   response => {
+    NProgress.done()
     console.log(response)
     // 數據拿著
     const res = response.data
@@ -54,6 +55,8 @@ service.interceptors.response.use(
         type: 'error',
         duration: 1 * 1000
       })
+      /*
+      應該問HOW哥, 如果Token 有問題是給多少, 他現在Token 有問題是直接 status 500
       if (res.code === 10008 || res.code === 10012 || res.code === 10014) {
         MessageBox.confirm(
           '登入狀態異常, 請重新登入',
@@ -71,6 +74,7 @@ service.interceptors.response.use(
           })
         })
       }
+      */
       // 返回錯誤訊息
       return Promise.reject(new Error(res.message || 'error'))
     } else {
@@ -79,7 +83,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('響應錯誤:', error)
+    console.log('響應錯誤:', error.response)
     Message({
       message: error.message,
       type: 'error',

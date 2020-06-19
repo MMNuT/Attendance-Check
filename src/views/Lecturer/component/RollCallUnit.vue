@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ backgroundColor }" @click="editAttendance" class="rollcallunit"></div>
+  <div class="rollcallunit" :class="className"></div>
 </template>
 
 <script>
@@ -13,13 +13,8 @@ export default {
     attendance () {
       return this.scope.row.Attendance
     },
-    backgroundColor () {
-      return this.attendance === this.attend ? this.attendanceColorList[attendanceFormat(this.attendance)] : ''
-    }
-  },
-  methods: {
-    editAttendance () {
-      this.$store.dispatch('lecturer/editAttendance', { StudentId: this.scope.row.StudentId, attend: this.attend })
+    className () {
+      return this.attendance === this.attend ? this.attendanceColorNameList[attendanceFormat(this.attendance)] : ''
     }
   }
 }
@@ -27,6 +22,7 @@ export default {
 
 <style scoped>
 .rollcallunit {
-  height: 30px;
+  height: 3rem;
+  border-radius: 1.5rem;
 }
 </style>

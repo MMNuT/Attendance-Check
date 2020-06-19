@@ -1,26 +1,15 @@
 const path = require('path')
 
 const port = 5566
-const title = 'hahahaha'
+const title = 'Attendance Check'
 
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
 module.exports = {
-  publicPath: '/testPath',
   devServer: {
-    port,
-    proxy: {
-      [process.env.VUE_APP_BASE_API]: {
-        target: 'http://127.0.0.1:9999/',
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      }
-    }
-    // before: require('./mock/mock-server')
+    port
   },
   configureWebpack: {
     name: title
@@ -40,5 +29,13 @@ module.exports = {
       .loader('svg-sprite-loader')
       .options({ symbolId: 'icon-[name]' })
       .end()
+
+    config.when(process.env.NODE_ENV === 'production', config => {
+      config.entry('app').clear().add('./src/main-prod.js')
+    })
+
+    config.when(process.env.NODE_ENV === 'development', config => {
+      config.entry('app').clear().add('./src/main-dev.js')
+    })
   }
 }

@@ -1,0 +1,23 @@
+@media screen and (max-width: 576px) {
+  .c-login {
+    width: 80%;
+    min-width: 0;
+  }
+
+  .loginContainer__title {
+    display: none;
+  }
+
+  .low576 {
+    display: block;
+  }
+
+  .c-loginBox .c-permissionButtonBox {
+    height: 14rem;
+  }
+  .c-permissionButtonBox .permissionButtonBox--button {
+    flex: 0 0 50%;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}

@@ -32,15 +32,15 @@ export const asyncRoutes = [
     path: '/lecturer',
     component: Layout,
     redirect: '/lecturer/index',
-    meta: { roles: ['admin', 'lecturer'] },
+    meta: { roles: ['lecturer'] },
     children: [
       {
         path: 'index',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Lecturer'),
+        component: _ => import(/* webpackChunkName: "lecturer" */ '@/views/Lecturer'),
         name: 'Lecturer',
         meta: {
           title: '任課老師',
-          icon: 'google'
+          icon: 'teacher'
         }
       },
       {
@@ -55,28 +55,28 @@ export const asyncRoutes = [
     path: '/totur',
     component: Layout,
     redirect: '/totur/index',
-    meta: { title: '導師', icon: 'google', roles: ['admin', 'totur'] },
+    meta: { title: '導師', icon: 'totur', roles: ['totur'] },
     children: [
       {
         path: 'index',
         name: 'TOTUR',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur/Today'),
+        component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur/Today'),
         meta: {
-          title: '今日'
+          title: '今日出缺'
         }
       },
       {
         path: 'statistics',
         name: 'Statistics',
         redirect: '/totur/index/query',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur'),
+        component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur'),
         meta: {
           title: '缺曠統計'
         },
         children: [
           {
             path: 'query',
-            component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur/Statistics/Query'),
+            component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur/Statistics/Query'),
             name: 'Query',
             meta: {
               title: '查詢資料'
@@ -84,7 +84,7 @@ export const asyncRoutes = [
           },
           {
             path: 'rank',
-            component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur/Statistics/Rank'),
+            component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur/Statistics/Rank'),
             name: 'Rank',
             meta: {
               title: '缺曠排名'
@@ -92,7 +92,7 @@ export const asyncRoutes = [
           },
           {
             path: 'conduct',
-            component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur/Statistics/Conduct'),
+            component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur/Statistics/Conduct'),
             name: 'Conduct',
             meta: {
               title: '操行試算'
@@ -103,14 +103,14 @@ export const asyncRoutes = [
       {
         path: 'complaint',
         name: 'Complaint',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur'),
+        component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur'),
         meta: {
           title: '家長連繫'
         },
         children: [
           {
             path: 'fill-record',
-            component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur/Complaint/Fill'),
+            component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur/Complaint/Fill'),
             name: 'FillRecord',
             meta: {
               title: '填寫紀錄'
@@ -118,7 +118,7 @@ export const asyncRoutes = [
           },
           {
             path: 'query-record',
-            component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur/Complaint/Query'),
+            component: _ => import(/* webpackChunkName: "totur" */ '@/views/Totur/Complaint/Query'),
             name: 'QueryRecord',
             meta: {
               title: '查詢記錄'
@@ -131,13 +131,12 @@ export const asyncRoutes = [
   {
     path: '/admin-staff',
     component: Layout,
-    redirect: '/admin-staff/index',
-    // meta: { roles: ['admin', 'admin-staff'] },
-    meta: { title: '行政人員', icon: 'google' },
+    redirect: '/admin-staff/edit',
+    meta: { title: '行政人員', icon: 'admin', roles: ['staff'] },
     children: [
       {
         path: 'edit',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur'),
+        component: _ => import(/* webpackChunkName: "staff" */ '@/views/Staff/Edit'),
         name: 'EDIT',
         meta: {
           title: '查詢修改'
@@ -145,7 +144,7 @@ export const asyncRoutes = [
       },
       {
         path: 'copy',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur'),
+        component: _ => import(/* webpackChunkName: "staff" */ '@/views/Staff/Copy'),
         name: 'COPY',
         meta: {
           title: '列印通知'
@@ -157,16 +156,40 @@ export const asyncRoutes = [
     path: '/student',
     component: Layout,
     redirect: '/student/index',
-    meta: { roles: ['admin', 'student'] },
+    meta: { title: '學生', icon: 'student', roles: ['student'] },
     children: [
       {
         path: 'index',
-        component: _ => import(/* webpackChunkame: "home" */ '@/views/Totur'),
-        name: 'Student',
+        component: _ => import(/* webpackChunkName: "student" */ '@/views/Student/Query'),
+        name: 'StudentQuery',
         meta: {
-          title: '學生',
-          icon: 'google'
+          title: '出勤資料'
         }
+      },
+      {
+        path: 'computed',
+        component: _ => import(/* webpackChunkName: "student" */ '@/views/Student/Computed'),
+        name: 'ComputedScore',
+        meta: {
+          title: '操行計算'
+        }
+      }
+    ]
+  },
+  {
+    path: '/copy',
+    component: _ => import('@/components/Copy'),
+    hidden: true,
+    children: [
+      {
+        path: 'download',
+        component: _ => import(/* webpackChunkName: "copy" */ '@/views/Staff/Copy/download.vue'),
+        name: 'CopyDownload'
+      },
+      {
+        path: 'complaint',
+        component: _ => import(/* webpackChunkName: "copy" */ '@/views/Totur/Complaint/Query/Copy.vue'),
+        name: 'ComplaintCopy'
       }
     ]
   }

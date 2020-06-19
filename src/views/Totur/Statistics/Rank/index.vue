@@ -1,75 +1,127 @@
 <template>
-  <div>
-    <el-row :getter="20">
-      <el-col :span="12">
-        <el-button>曠課排行榜</el-button>
-      </el-col>
-      <el-col :span="12">
-        <el-button>請假排行榜</el-button>
-      </el-col>
-      <Charts :option="chartsOption"/>
-    </el-row>
+  <div class="charts-box">
+    <div>
+      <Charts :option="chartsOption.skip" />
+    </div>
+    <div>
+      <Charts :option="chartsOption.leave" />
+    </div>
   </div>
 </template>
 
 <script>
 import Charts from '@/components/Charts'
+import { getSkipData, getLeaveData } from '@/api/teacher-tutor'
+import defaultSet from '@/mixins/default'
 
 export default {
+  mixins: [defaultSet],
   components: { Charts },
   data () {
     return {
-      chartsOption: {}
+      word: {
+        skipData: {
+          titleText: '曠課排行榜',
+          seriesName: '曠課次數',
+          colorListKey: '曠課'
+        },
+        leaveData: {
+          titleText: '請假排行榜',
+          seriesName: '請假次數',
+          colorListKey: '請假'
+        }
+      },
+      chartsOption: {
+        skip: {},
+        leave: {}
+      }
     }
   },
   created () {
-    this.getRankData()
+    this.getSkipData()
+    this.getLeaveData()
   },
   methods: {
-    getRankData () {
-      // 獲取排行榜數據
-      // 生成 ChartsOption
-      this.chartsOption = this.generateChartsOption()
+    async getSkipData () {
+      const { data } = await getSkipData()
+      // this.rankDatas.skipData = data
+      // 1. 排序
+      this.$_dataSort(data)
+      // 2. 搜集參數
+      const { yAxis, seriesData } = this.$_collectParams(data)
+      // 3. 畫圖
+      this.chartsOption.skip = this.generateChartsOption({ yAxis, seriesData, others: this.word.skipData })
     },
-    generateChartsOption () {
+    async getLeaveData () {
+      const { data } = await getLeaveData()
+      // 1. 排序
+      this.$_dataSort(data)
+      // 2. 搜集參數
+      console.log(data)
+      const { yAxis, seriesData } = this.$_collectParams(data)
+      // 3. 畫圖
+      this.chartsOption.leave = this.generateChartsOption({ yAxis, seriesData, others: this.word.leaveData })
+    },
+    $_dataSort (data) {
+      data.sort((a, b) => b.Times - a.Times)
+    },
+    $_collectParams (data) {
+      const yAxis = []
+      const seriesData = []
+      data.forEach(d => {
+        yAxis.push(d.Name)
+        seriesData.push(d.Times)
+      })
+      return { yAxis, seriesData }
+    },
+    generateChartsOption ({ yAxis, seriesData, others }) {
+      console.log(yAxis, seriesData, others)
       return {
         title: {
-          text: '世界人口总量',
-          subtext: '数据来自网络'
+          text: others.titleText,
+          textStyle: {
+            fontFamily: 'JasonHandwriting3',
+            fontSize: 30,
+            color: '#fff'
+          },
+          backgroundColor: this.attendanceColorList[others.colorListKey]
         },
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
+          textStyle: {
+            fontSize: 20
           }
         },
         legend: {
-          data: ['2011年', '2012年']
+          type: false
         },
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+          show: false
         },
         xAxis: {
-          type: 'value',
-          boundaryGap: [0, 0.01]
+          axisLabel: {
+            textStyle: {
+              fontSize: 18
+            }
+          }
         },
         yAxis: {
           type: 'category',
-          data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
+          data: yAxis.reverse(),
+          axisLabel: {
+            textStyle: {
+              fontSize: 18,
+              fontFamily: 'jf-openhuninn'
+            }
+          }
         },
         series: [
           {
-            name: '2011年',
+            name: others.seriesName,
             type: 'bar',
-            data: [18203, 100000, 29034, 104970, 131744, 630230]
-          },
-          {
-            name: '2012年',
-            type: 'bar',
-            data: [19325, 23438, 31000, 121594, 134141, 681807]
+            data: seriesData.reverse(),
+            barMaxWidth: 35,
+            color: this.attendanceColorList[others.colorListKey]
           }
         ]
       }
@@ -77,3 +129,15 @@ export default {
   }
 }
 </script>
+
+<style>
+.charts-box {
+  display: flex;
+  width: 128rem;
+  height: 100%;
+}
+.charts-box > div {
+  flex: 1;
+  height: 100%;
+}
+</style>

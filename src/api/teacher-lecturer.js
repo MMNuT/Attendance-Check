@@ -8,7 +8,6 @@ export function getTodaySchedule () {
 }
 
 export function insertRollCallData (data) {
-  console.log(data)
   return request({
     url: '/api/teach/records/create',
     method: 'post',
@@ -17,7 +16,6 @@ export function insertRollCallData (data) {
 }
 
 export function updateRollCallData (data) {
-  console.log(data)
   return request({
     url: '/api/teach/records/update',
     method: 'put',

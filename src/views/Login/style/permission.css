@@ -1,10 +1,10 @@
 .c-loginBox .c-permissionButtonBox {
-  height: 60px;
+  height: 6rem;
 }
 
 .c-permissionButtonBox .loading {
-  line-height: 40px;
-  font-size: 40px;
+  line-height: 4rem;
+  font-size: 4rem;
   font-weight: 900;
   display: flex;
   font-family: 'Dokdo';
@@ -12,16 +12,17 @@
 .c-permissionButtonBox--buttonBox {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
-.c-permissionButtonBox .permissionButtonBox--button {
-}
-.c-permissionButtonBox .permissionButtonBox--button.current {
+
+.c-permissionButtonBox .permissionButtonBox--button .current {
   background-color: var(--main-black);
   color: var(--white);
 }
+
 .c-login .c-loginBox--final {
   text-align: right;
-  margin-top: 15px;
+  margin-top: 1.5rem;
 }
 
 
@@ -29,7 +30,7 @@
 /* 旋轉吧 I */
 .c-permissionButtonBox .loading .rotateI {
   display: block;
-  margin: 0 9px;
+  margin: 0 .9rem;
   animation: rotate 3s linear infinite
 }
 /* 跳吧 L*/
