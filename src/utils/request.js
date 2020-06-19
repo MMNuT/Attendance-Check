@@ -57,23 +57,6 @@ service.interceptors.response.use(
       })
       /*
       應該問HOW哥, 如果Token 有問題是給多少, 他現在Token 有問題是直接 status 500
-      if (res.code === 10008 || res.code === 10012 || res.code === 10014) {
-        MessageBox.confirm(
-          '登入狀態異常, 請重新登入',
-          '確認登入信息',
-          {
-            confirmButtonText: '重新登入',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }
-        ).then(_ => {
-          // 刷新令牌
-          store.dispatch('user/resetToken').then(_ => {
-            // 刷新頁面( window.location.reload() )
-            location.reload()
-          })
-        })
-      }
       */
       // 返回錯誤訊息
       return Promise.reject(new Error(res.message || 'error'))
