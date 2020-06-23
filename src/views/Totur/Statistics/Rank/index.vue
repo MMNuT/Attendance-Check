@@ -1,10 +1,10 @@
 <template>
   <div class="charts-box">
     <div>
-      <Charts :option="chartsOption.skip" />
+      <Charts :option="chartsOption.skip" width="60.5rem"/>
     </div>
     <div>
-      <Charts :option="chartsOption.leave" />
+      <Charts :option="chartsOption.leave" width="60.5rem"/>
     </div>
   </div>
 </template>
@@ -130,14 +130,19 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .charts-box {
   display: flex;
-  width: 128rem;
   height: 100%;
 }
 .charts-box > div {
   flex: 1;
   height: 100%;
+}
+
+@media screen and (max-width: 576px) {
+  .charts-box {
+    flex-wrap: wrap;
+  }
 }
 </style>

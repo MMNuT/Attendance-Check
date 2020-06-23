@@ -6,12 +6,15 @@
         <span>{{ time }}</span>
       </el-col>
     </el-row>
-    <el-table :data="todaySchedule" highlight-current-row @current-change="handleCurrentChange" class="today-schedule pointer">
+    <el-table :data="todaySchedule" highlight-current-row @current-change="handleCurrentChange" class="today-schedule pointer" :max-table="maxTableHeight">
       <!-- 空數據時的插槽 -->
-      <template #empty>等待, 我隨時隨地在等待</template>
+      <template #empty>
+        <p>等待, </p>
+        <p>我隨時隨地在等待</p>
+      </template>
       <el-table-column prop="LessonOrderName" label="Period" width="100"></el-table-column>
-      <el-table-column prop="ClassName" label="Class" width="130"></el-table-column>
-      <el-table-column prop="Subject" label="Subject" min-width="160"></el-table-column>
+      <el-table-column prop="ClassName" label="Class" width="100"></el-table-column>
+      <el-table-column prop="Subject" label="Subject" width="130"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -33,6 +36,9 @@ export default {
   computed: {
     tableSize () {
       return (this.size / 3) - 5
+    },
+    maxTableHeight () {
+      return this.$store.getters.clientHeight - 60 - 40 - 92
     }
   },
   created () {

@@ -1,24 +1,28 @@
 .attend .attendBox__title {
   border: .3rem solid var(--main-green);
 }
-.attend .attendBox__name-box li::before {
+.attend .attendBox__name-box li::before,
+.attend .attend-count__lesson-name::before {
   background-color: var(--main-green);
 }
 .late .attendBox__title {
   border: .3rem solid var(--main-yellow);
 }
-.late .attendBox__name-box li::before {
+.late .attendBox__name-box li::before,
+.late .attend-count__lesson-name::before {
   background-color: var(--main-yellow);
 }
 .skip .attendBox__title {
   border: .3rem solid var(--main-red);
 }
-.skip .attendBox__name-box li::before {
+.skip .attendBox__name-box li::before,
+.skip .attend-count__lesson-name::before {
   background-color: var(--main-red);
 }
 .leave .attendBox__title {
   border: .3rem solid var(--main-blue);
 }
-.leave .attendBox__name-box li::before {
+.leave .attendBox__name-box li::before,
+.leave .attend-count__lesson-name::before {
   background-color: var(--main-blue);
 }

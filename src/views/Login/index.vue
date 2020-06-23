@@ -48,11 +48,15 @@
 <script>
 import { getPermission } from '@/api/user'
 import { URLSearchParamsformat } from '@/utils/format'
+import router from '@/router'
+// import { mapGetters } from 'vuex'
+console.log(router)
 
 export default {
   created () {
     this.getPermission()
     this.clearLocalStorage()
+    this.$store.dispatch('user/resetToken')
   },
   data () {
     return {
@@ -98,6 +102,7 @@ export default {
       }
       return '/'
     }
+    // ...mapGetters(['roles'])
   },
   filters: {
     justTwoWord (val) {
@@ -150,6 +155,7 @@ export default {
         const params = URLSearchParamsformat(this.loginInfo)
         // 登入請求
         await this.$store.dispatch('user/login', params)
+        console.log(this.$route.query.redirect, this.initPath)
         // 成功就跳轉
         await this.$router.push({ path: this.$route.query.redirect || `${this.initPath}` })
       } catch (error) {
@@ -163,6 +169,7 @@ export default {
     },
     // 重置表單
     resetForm () {
+      console.log(this.roles)
       this.$refs.ruleForm.resetFields()
     },
     clearLocalStorage () {

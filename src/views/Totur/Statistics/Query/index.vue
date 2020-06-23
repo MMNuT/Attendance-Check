@@ -8,7 +8,8 @@
               v-for="(student, index) in studentNames"
               :key="index"
               :label="student.Name"
-              :value="student.Id">
+              :value="student.Id"
+              clearable>
             </el-option>
           </el-select>
           <el-select v-model="selectData.Attendance" placeholder="出勤狀態" clearable @change="changeSelect">
@@ -16,28 +17,24 @@
               v-for="(status, index) in attendances"
               :key="index"
               :label="status"
-              :value="attendancesOrder[status]">
+              :value="attendancesOrder[status]"
+              clearable>
             </el-option>
           </el-select>
         </div>
         <div>
-          <el-date-picker
-            v-model="selectData.time"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="起始日期"
-            end-placeholder="結束日期"
-            value-format="yyyy-MM-dd"
-            @change="changeSelect"
-          >
-          </el-date-picker>
+          <DatePickerTwoInput @handleDatePickerInput="handleDatePickerInput" @changeSelect="changeSelect"/>
         </div>
       </div>
+      <SearchButton @query="query"/>
+      <!--
       <div class="query-box__button-box">
         <el-button @click="query">查詢</el-button>
+        <SearchButton/>
       </div>
+      -->
     </div>
-    <el-table :data="queryData" style="width: 100%" empty-text="暫無訊息" height="700">
+    <el-table :data="queryData" style="width: 100%" empty-text="暫無訊息" :max-height="maxTableHeight">
       <el-table-column prop="Name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="Date" label="時間" width="150" :formatter="timeFormat"></el-table-column>
       <el-table-column prop="LessonOrder" label="課堂" width="100" :formatter="periodFormat"></el-table-column>
@@ -50,11 +47,16 @@
 
 <script>
 import { getStudentNames, queryStudentAttendanceStatus } from '@/api/teacher-tutor'
-import defaultSet from '@/mixins/default'
+import { defaultSet, resize } from '@/mixins'
 import { periodFormat, timeFormat, beforeNoRecordThisAttr } from '@/utils/format'
+import DatePickerTwoInput from '@/components/DatePickerTwoInput'
+import SearchButton from '@/components/SearchButton'
+
+console.log(queryStudentAttendanceStatus)
 
 export default {
-  mixins: [defaultSet],
+  mixins: [defaultSet, resize],
+  components: { DatePickerTwoInput, SearchButton },
   data () {
     return {
       studentNames: [],
@@ -65,6 +67,11 @@ export default {
       },
       queryData: [],
       queryFirst: false
+    }
+  },
+  computed: {
+    maxTableHeight () {
+      return this.$store.getters.clientHeight - 60 - 40 - 80
     }
   },
   created () {
@@ -81,27 +88,17 @@ export default {
       }
     },
     async query () {
-      const queryParams = this.$_sortParams()
       try {
-        const { data } = await queryStudentAttendanceStatus(queryParams)
+        const { data } = await queryStudentAttendanceStatus({
+          StudentId: this.selectData.StudentId,
+          Attendance: this.selectData.Attendance,
+          StartDate: this.selectData.time.StartDate,
+          EndDate: this.selectData.time.EndDate
+        })
         this.queryData = data
         this.queryFirst = true
       } catch (error) {
         console.log(error)
-      }
-    },
-    $_sortParams () {
-      let StartDate = ''
-      let EndDate = ''
-      if (this.selectData.time) {
-        StartDate = this.selectData.time[0]
-        EndDate = this.selectData.time[1]
-      }
-      return {
-        StudentId: this.selectData.StudentId,
-        Attendance: this.selectData.Attendance,
-        StartDate,
-        EndDate
       }
     },
     periodFormat (row, column, cellValue) {
@@ -116,13 +113,16 @@ export default {
       // if (!cellValue) return '未記錄'
       // return cellValue
     },
-    changeSelect (...args) {
+    changeSelect () {
       // 想法:
       // 第一次使用者通常想要給比較多參數, 所以先不馬上送請求
       // 第二次之後通常只是想修改某個參數, 此時一修改馬上送請求
       if (this.queryFirst) {
         this.query()
       }
+    },
+    handleDatePickerInput (time) {
+      this.selectData.time = time
     }
   }
 }

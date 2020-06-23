@@ -1,17 +1,17 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="title">
       <el-col :span="24"><h1>{{ classData.ClassName }}{{ classData.Subject }}</h1></el-col>
     </el-row>
     <el-table
       :data="classData.StudentInfo"
-      height="700"
+      :max-height="tableMaxHeight"
       class="roll-call-table"
       @cell-click="editAttendance"
       :cell-class-name="tableClassCallBack"
     >
       <el-table-column label="學號" prop="學號" v-if="size >= 992"></el-table-column>
-      <el-table-column label="姓名" prop="姓名" min-width="80px"></el-table-column>
+      <el-table-column label="姓名" prop="姓名" width="80"></el-table-column>
       <el-table-column :label="label('出席')" :width="tableWidth">
         <template #default="scope">
           <RollCallUnit :scope="scope" :attend="1" />
@@ -44,7 +44,7 @@
       </el-table-column>
     </el-table>
     <el-row>
-      <el-col :span="8" :offset="16" class="">
+      <el-col :span="8" :offset="16" class="button-box">
         <el-button @click="dialogVisible = true">送出</el-button>
       </el-col>
     </el-row>
@@ -113,10 +113,16 @@ export default {
     },
     tableWidth () {
       if (this.size <= 992) {
-        return (this.size / 7) - 5
+        /* 40 是 el-main 的 padding */
+        /* 80 是 姓名欄位 */
+        return (this.size - 40 - 80) / 6
       } else {
         return ''
       }
+    },
+    tableMaxHeight () {
+      console.log(this.$store.getters.clientHeight - 60 - 40 - 43 - 56)
+      return this.$store.getters.clientHeight - 60 - 40 - 43 - 56
     }
   },
   created () {
@@ -141,7 +147,8 @@ export default {
         this.$_message({
           type: 'success',
           message,
-          duration: 2000
+          duration: 2000,
+          showClose: true
         })
         this.$router.push({ path: '/' }).catch(err => err)
       } catch (error) {
@@ -172,9 +179,14 @@ export default {
 </script>
 
 <style scoped>
-.el-col {
+.title .el-col {
   text-align: center;
 }
+
+.button-box.el-col {
+  text-align: right;
+}
+
 .roll-call-table {
   max-width: 90rem;
   margin: 0 auto 0;

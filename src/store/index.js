@@ -12,6 +12,9 @@ export default new Vuex.Store({
   getters: {
     roles: state => state.user.roles,
     token: state => state.user.token,
-    permission_routes: state => state.permission.routes
+    permission_routes: state => state.permission.routes,
+    clientWidth: state => state.app.clientWidth,
+    clientHeight: state => state.app.clientHeight,
+    isLow576: state => state.app.low576
   }
 })

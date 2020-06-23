@@ -1,0 +1,54 @@
+.attend-list-box {
+  flex: 1;
+}
+
+.attend-list-box .attend-list-card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 0 1rem 2rem 0;
+  box-shadow:
+    1rem 1rem 1rem rgba(0, 0, 0, .2),
+    -1rem -1rem 1rem rgba(255, 255, 255, 1),
+    inset 0rem 0rem 0rem rgba(0, 0, 0, 0),
+    inset 0rem 0rem 0rem rgba(0, 0, 0, 0);
+  transition: all ease .4s;
+}
+
+.attend-list-box .attend-list-card.isActive {
+  box-shadow:
+    0rem 0rem 0rem rgba(0, 0, 0, 0),
+    0rem 0rem 0rem rgba(0, 0, 0, 0),
+    inset .6rem .6rem 1rem rgba(0, 0, 0, .3),
+    inset -1rem -1rem 1rem rgba(255, 255, 255, 1);
+}
+
+.attend-list-card__info {
+  display: flex;
+}
+
+.attend-list-card .attend-list-card__info > h3 {
+  width: 3.5rem;
+}
+
+.attend-list-card .attend-list-card__info .attend-count-box {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  font-size: 2.8rem;
+}
+
+.attend-list-card .attend-list-card__info .attend-count-box li {
+  flex: 0 0 33%;
+  background: inherit;
+  color: inherit;
+}
+
+.attend-list-card .attend-list-card__info .attend-count-box li p {
+  text-align: center;
+}
+
+.attend-list-card .attend-list-card__info .attend-count-box li .attend-count__lesson-name {
+  position: relative;
+}
+
+/* 接下來應該寫個遮罩, 只要點擊畫面就縮回去 */

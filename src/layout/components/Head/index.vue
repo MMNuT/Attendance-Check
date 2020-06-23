@@ -34,4 +34,10 @@ export default {
   line-height: 1rem;
   border: 0;
 }
+
+@media screen and (max-width: 576px) {
+  .el-breadcrumb {
+    display: none;
+  }
+}
 </style>

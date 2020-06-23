@@ -8,6 +8,7 @@ import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import resize from './mixin/resize'
+import { mapState } from 'vuex'
 
 export default {
   mixizs: [resize],
@@ -30,6 +31,11 @@ export default {
       charts: null
     }
   },
+  computed: {
+    ...mapState({
+      isScreenLarge: state => state.app.isScreenLarge
+    })
+  },
   methods: {
     getTodayAttendance () {
       const charts = echarts.init(this.$refs.test)
@@ -44,6 +50,11 @@ export default {
     option (...arg) {
       console.log(...arg)
       this.getTodayAttendance()
+    },
+    isScreenLarge (newVal) {
+      if (newVal) {
+        this.charts && this.charts.resize()
+      }
     }
   }
 }

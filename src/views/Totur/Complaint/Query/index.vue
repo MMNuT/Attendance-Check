@@ -1,35 +1,35 @@
 <template>
   <div class="fill-query-container">
     <div class="query-row">
-      <div class="select-student">
-        <el-select v-model="queryRecordParam.StudentId" placeholder="選擇學生" clearable @change="changeSelect">
-          <el-option :label="student.Name" :value="student.Id" v-for="student in studentNames" :key="student.Id"></el-option>
-        </el-select>
+      <div class="query-params-box">
+        <div class="select-student">
+          <el-select v-model="queryRecordParam.StudentId" placeholder="選擇學生" clearable @change="changeSelect">
+            <el-option :label="student.Name" :value="student.Id" v-for="student in studentNames" :key="student.Id"></el-option>
+          </el-select>
+        </div>
+        <div class="query-col">
+          <DatePickerTwoInput @handleDatePickerInput="handleDatePickerInput" @changeSelect="changeSelect"/>
+        </div>
       </div>
       <div class="query-col">
-        <el-date-picker
-          v-model="queryRecordParam.time"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="開始日期"
-          end-placeholder="結束日期"
-          value-format="yyyy-MM-dd"
-          @change="changeSelect">
-        </el-date-picker>
-      </div>
-      <div class="query-col">
-        <el-button @click="queryRecord">查詢</el-button>
-        <el-button @click="copyDetail" :disabled="!queryRecordData.length">列印詳細資訊</el-button>
+        <SearchButton @query="queryRecord"/>
+        <SearchButton
+          @query="copyDetail"
+          word="列印"
+          icon="copy"
+          :disabled="!queryRecordData.length"
+          class="copy"
+          :bg-color="!queryRecordData.length? 'var(--main-black)': 'var(--main-yellow)'"/>
       </div>
     </div>
     <div class="fill-query-table">
-      <el-table :data="queryRecordData" @row-click="visiableDetail" height="700" class="pointer">
-        <el-table-column prop="Time" label="時間" width="250" :formatter="timeFormat"></el-table-column>
-        <el-table-column prop="StudentName" label="學生" width="180"></el-table-column>
-        <el-table-column prop="ContactGuardian" label="學生家長" width="180"></el-table-column>
+      <el-table :data="queryRecordData" @row-click="visiableDetail" class="pointer">
+        <el-table-column prop="Time" label="時間" :width="clientWidth <= 576 ? '150': '230'" :formatter="timeFormat"></el-table-column>
+        <el-table-column prop="StudentName" label="學生" width="100"></el-table-column>
+        <el-table-column prop="ContactGuardian" label="學生家長" width="130"></el-table-column>
       </el-table>
     </div>
-    <el-dialog :visible.sync="dialogVisible" custom-class="record-detail-dialog">
+    <el-dialog :visible.sync="dialogVisible" custom-class="record-detail-dialog" width="70%">
       <ul v-for="(title, step) in chileseTitle" :key="step" class="fill__confirm-box" :class="step">
         <li v-for="(cn, en) in title" :key="en" class="fill__confirm-content-box">
           <h4 class="fill__confirm-title">{{ cn }}</h4>
@@ -47,11 +47,15 @@
 <script>
 import mixins from './mixin'
 import { getStudentNames, queryContactRecord, getContactDetailRecord, getPrintData } from '@/api/teacher-tutor'
-import { timeFormat, splitTimesToStartAndEnd } from '@/utils/format'
+import { timeFormat } from '@/utils/format'
 import { redirectToDownloadByBlank } from '@/utils'
+import { mapGetters } from 'vuex'
+import DatePickerTwoInput from '@/components/DatePickerTwoInput'
+import SearchButton from '@/components/SearchButton'
 
 export default {
   mixins: [mixins],
+  components: { DatePickerTwoInput, SearchButton },
   data () {
     return {
       // 查詢參數(丟給後端的)
@@ -82,10 +86,11 @@ export default {
     },
     params () {
       return {
-        ...splitTimesToStartAndEnd(this.queryRecordParam.time),
+        ...this.queryRecordParam.time,
         StudentId: this.queryRecordParam.StudentId
       }
-    }
+    },
+    ...mapGetters(['clientWidth'])
   },
   watch: {
     // 關閉細節顯示框後清空剛拿到的紀錄細節數據
@@ -169,27 +174,33 @@ export default {
       console.log(data)
       window.localStorage.setItem('complaintCopy', JSON.stringify(data))
       redirectToDownloadByBlank('#/copy/complaint')
+    },
+    handleDatePickerInput (time) {
+      this.queryRecordParam.time = time
     }
   }
 }
 </script>
 
 <style scoped>
-.fill-query-container {
-  width: 90rem;
-  margin: 0 auto 0;
-}
-.fill-query-table {
-  margin: 0 auto 0;
-}
-
 .query-row {
   display: flex;
   justify-content: space-between;
+  max-width: 600px;
+  margin: 0 auto 0;
 }
 
-.select-student .el-select {
-  width: 18rem;
+.query-col {
+  display: flex;
+}
+
+@media screen and (max-width: 576px) {
+  .query-box__button-box.copy {
+    top: 45%;
+  }
+  .query-params-box {
+    margin: 0 auto 0;
+  }
 }
 </style>
 
@@ -202,5 +213,23 @@ export default {
 .record-detail-dialog .fill__confirm-content {
   font-size: 3rem;
   font-family: 'JasonHandwriting3'
+}
+
+.fill-query-container .date-picker-container .el-date-editor.el-input {
+  width: 16.5rem;
+}
+.fill-query-container .date-picker-container .el-date-editor.el-input > input {
+  padding-right: 0;
+}
+
+.fill-query-container .el-dialog {
+  max-width: 600px;
+}
+
+@media screen and (max-width: 576px) {
+  .step1 .fill__confirm-content-box {
+    display: block;
+    margin-bottom: 0;
+  }
 }
 </style>

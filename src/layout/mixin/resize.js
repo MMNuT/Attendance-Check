@@ -22,9 +22,21 @@ export default {
 
       // 2. sidebar
       this.$store.dispatch('app/toggleScreenLarge', this.$_isScreenLarge())
+      this.$store.dispatch('app/setClientWidth', this.$_getClientWidth())
+      this.$store.dispatch('app/setClientHeight', this.$_getClientHeight())
+      this.$store.dispatch('app/toggleScreenLow576', this.$_low576())
     },
     $_isScreenLarge () {
       return document.documentElement.clientWidth - 1 >= 992
+    },
+    $_getClientWidth () {
+      return document.documentElement.clientWidth
+    },
+    $_getClientHeight () {
+      return document.documentElement.clientHeight
+    },
+    $_low576 () {
+      return document.documentElement.clientWidth - 1 <= 576
     }
   }
 }

@@ -113,6 +113,12 @@ div.el-table::before {
   cursor: pointer;
 }
 
+.el-table__header,
+.el-table__body,
+.el-table__empty-block {
+  margin: 0 auto 0;
+}
+
 /* 暫無數據的 div */
 .el-table__empty-block {
   border-bottom: .1rem solid #EBEEF5;
@@ -157,3 +163,10 @@ div.el-date-editor span.el-range-separator {
   padding: 0;
 }
 
+.el-tooltip__popper.is-dark {
+  font-size: 30px;
+}
+
+.el-message .el-message__content {
+  font-size: 30px;
+}

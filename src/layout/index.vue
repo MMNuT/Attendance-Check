@@ -80,7 +80,7 @@ aside.el-aside {
   width: 100%;
   height: 100vh;
   position: absolute;
-  z-index: 2;
+  z-index: 998;
   background: rgba(0,0,0,.2);
 }
 
@@ -96,6 +96,12 @@ aside.el-aside {
   .open {
     transform: translateX(0);
     width: 220px!important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .el-main {
+    /* overflow-x: hidden; */
   }
 }
 </style>

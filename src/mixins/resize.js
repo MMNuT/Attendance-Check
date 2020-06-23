@@ -1,7 +1,13 @@
 export default {
   data () {
     return {
-      size: 0
+      size: 0,
+      height: 0
+    }
+  },
+  computed: {
+    isLowThan768 () {
+      return this.size <= 768
     }
   },
   beforeMount () {
@@ -16,6 +22,7 @@ export default {
   methods: {
     $_resizeHandler () {
       this.size = document.documentElement.clientWidth
+      this.height = document.documentElement.clientHeight
     }
   }
 }

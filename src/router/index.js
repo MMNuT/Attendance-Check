@@ -20,9 +20,17 @@ Vue.use(VueRouter)
 
 export const constRoutes = [
   {
+    path: '/'
+  },
+  {
     path: '/login',
     component: _ => import('@/views/Login'),
     // 導航菜單忽略
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: _ => import('@/views/Error/404.vue'),
     hidden: true
   }
 ]
@@ -193,6 +201,7 @@ export const asyncRoutes = [
       }
     ]
   }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const router = new VueRouter({

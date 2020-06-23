@@ -10,3 +10,13 @@
 .low576 {
   display: none;
 }
+
+.low768 {
+  display: none;
+}
+
+@media screen and (max-width: 576px) {
+  .low576 {
+    display: block;
+  }
+}

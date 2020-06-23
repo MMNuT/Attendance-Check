@@ -345,6 +345,22 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@media screen and (max-width: 768px) and (min-width: 576px) {
+  .fill-container {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .fill-container {
+    width: 100%;
+  }
+  .fill-container .step-container {
+    min-width: 250px
+  }
+}
 </style>
 
 <style>
@@ -372,5 +388,9 @@ export default {
   font-family: 'jf-openhuninn';
   font-size: 2.2rem;
   padding: 1.5rem;
+}
+
+.el-form-item__content .el-date-editor.el-input {
+  width: auto;
 }
 </style>
