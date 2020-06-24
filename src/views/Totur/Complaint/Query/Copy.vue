@@ -1,5 +1,6 @@
 <template>
   <div class="complaint-copy-container">
+    <MaskLoading v-if="loading"/>
     <div v-for="student in copyData" :key="student.Id">
       <table>
         <thead>
@@ -30,12 +31,15 @@
 <script>
 import mixins from './mixin'
 import { timeFormat } from '@/utils/format'
+import MaskLoading from '@/components/MaskLoading'
 
 export default {
   mixins: [mixins],
+  components: { MaskLoading },
   data () {
     return {
-      copyData: []
+      copyData: [],
+      loading: true
     }
   },
   created () {
@@ -75,7 +79,10 @@ export default {
     },
     print () {
       setTimeout(_ => {
-        window.print()
+        this.loading = false
+        this.$nextTick(_ => {
+          window.print()
+        })
       }, 2000)
     }
   }

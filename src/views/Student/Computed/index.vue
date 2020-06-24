@@ -50,7 +50,24 @@ export default {
 
 <style>
 .deduction-container {
-  width: 65rem;
-  margin: 0 auto 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.deduction-detail-box {
+  width: 650px;
+  height: auto;
+  align-content: center;
+}
+
+.deduction-detail-box > li {
+  height: 247px;
+}
+
+@media screen and (max-width: 768px) {
+  .deduction-detail-box {
+    width: 426px;
+  }
 }
 </style>

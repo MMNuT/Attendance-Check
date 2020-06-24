@@ -48,6 +48,8 @@ export default {
   },
   computed: {
     time () {
+      // console.log(this.isLowThan768)
+      // console.log(this.selectData.StartDate, this.selectData.EndDate)
       if (this.isLowThan768) {
         return {
           StartDate: this.selectData.StartDate || '',
@@ -73,7 +75,15 @@ export default {
       }
     },
     time (newVal) {
-      this.$emit('handleDatePickerInput', newVal)
+      if (new Date(newVal.StartDate).getTime() > new Date(newVal.EndDate).getTime()) return null
+      if (!newVal.StartDate && newVal.EndDate) {
+        this.$emit('handleDatePickerInput', {
+          StartDate: newVal.EndDate,
+          EndDate: newVal.EndDate
+        })
+      } else {
+        this.$emit('handleDatePickerInput', newVal)
+      }
     }
   },
   methods: {
@@ -85,7 +95,10 @@ export default {
     },
     handleChnageEachDateData () {
       this.$_handleDateData()
-      this.$emit('changeSelect')
+      // 等下一幀在發射, 要等數據確定整理過後
+      this.$nextTick(_ => {
+        this.$emit('changeSelect')
+      })
     },
     $_handleDateData () {
       // 避免清除時他附值 null 造成後面的報錯
@@ -99,7 +112,6 @@ export default {
         })
         return null
       }
-      console.log(123)
       // 如果結束時間比開始時間早, 對調
       if (new Date(this.selectData.StartDate).getTime() > new Date(this.selectData.EndDate).getTime()) {
         const tmp = this.selectData.StartDate

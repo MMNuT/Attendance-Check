@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MaskLoading v-if="loading"/>
     <div v-for="data in copyData" :key="data.StudentNumber">
       <div class="page1 page">
         <div class="cover">
@@ -40,7 +41,9 @@
 </template>
 
 <script>
+import MaskLoading from '@/components/MaskLoading'
 export default {
+  components: { MaskLoading },
   data () {
     return {
       copyData: [],
@@ -55,7 +58,8 @@ export default {
       {
         chinese: '科目',
         en: 'Subject'
-      }]
+      }],
+      loading: true
     }
   },
   created () {
@@ -70,7 +74,10 @@ export default {
     },
     print () {
       setTimeout(_ => {
-        window.print()
+        this.loading = false
+        this.$nextTick(_ => {
+          window.print()
+        })
       }, 2000)
     }
   }

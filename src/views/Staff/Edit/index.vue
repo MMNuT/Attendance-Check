@@ -2,61 +2,54 @@
   <div>
     <div class="admin-query-box">
       <div class="admin-query-box__params">
-        <el-select v-model="queryParams.ClassId" placeholder="選擇班級" @change="getStudentInfo" clearable class="select-class">
-          <el-option
-            v-for="classData in classes"
-            :key="classData.ClassId"
-            :label="classData.ClassName"
-            :value="classData.ClassId">
-          </el-option>
-        </el-select>
-        <el-select v-model="queryParams.StudentId" placeholder="選擇學生" clearable @change="changeParams" class="select-student">
-          <el-option
-            v-for="student in students"
-            :key="student.StudentId"
-            :label="student.Name"
-            :value="student.StudentId">
-          </el-option>
-        </el-select>
-        <el-select v-model="queryParams.Attendance" placeholder="出勤狀態" clearable @change="changeParams" class="select-status">
-          <el-option
-            v-for="attendance in attendanceElementUISelect"
-            :key="attendance.label"
-            :label="attendance.label"
-            :value="attendance.value">
-          </el-option>
-        </el-select>
-        <el-date-picker
-          v-model="queryParams.time"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="開始日期"
-          end-placeholder="結束日期"
-          value-format="yyyy-MM-dd"
-          clearable
-          @change="changeParams">
-        </el-date-picker>
+        <div class="student-params-box">
+          <el-select v-model="queryParams.ClassId" placeholder="選擇班級" @change="getStudentInfo" clearable class="select-class">
+            <el-option
+              v-for="classData in classes"
+              :key="classData.ClassId"
+              :label="classData.ClassName"
+              :value="classData.ClassId">
+            </el-option>
+          </el-select>
+          <el-select v-model="queryParams.StudentId" placeholder="選擇學生" clearable @change="changeParams" class="select-student">
+            <el-option
+              v-for="student in students"
+              :key="student.StudentId"
+              :label="student.Name"
+              :value="student.StudentId">
+            </el-option>
+          </el-select>
+          <el-select v-model="queryParams.Attendance" placeholder="出勤狀態" clearable @change="changeParams" class="select-status">
+            <el-option
+              v-for="attendance in attendanceElementUISelect"
+              :key="attendance.label"
+              :label="attendance.label"
+              :value="attendance.value">
+            </el-option>
+          </el-select>
+        </div>
+        <DatePickerTwoInput @handleDatePickerInput="handleDatePickerInput" @changeSelect="changeParams"/>
       </div>
       <div class="admin-query-box__button">
-        <el-button @click="getRecordSearchList">查詢</el-button>
+        <SearchButton @query="getRecordSearchList"/>
       </div>
     </div>
-    <el-table :data="queryData" @row-click="getDetail" empty-text="暫無數據" height="700" class="pointer">
-      <el-table-column prop="Class" label="班級" width="180"></el-table-column>
-      <el-table-column prop="Name" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="Date" label="時間" width="180" :formatter="timeFormat"></el-table-column>
-      <el-table-column prop="LessonOrder" label="課堂" width="180" :formatter="periodFormat"></el-table-column>
-      <el-table-column prop="Attendance" label="狀態" width="180"></el-table-column>
+    <el-table :data="queryData" @row-click="getDetail" empty-text="暫無數據" :max-height="maxTableHeight" class="pointer">
+      <el-table-column prop="Class" label="班級" width="85"></el-table-column>
+      <el-table-column prop="Name" label="姓名" width="80"></el-table-column>
+      <el-table-column prop="Date" label="時間" width="135" :formatter="timeFormat"></el-table-column>
+      <el-table-column prop="LessonOrder" label="課堂" width="80" :formatter="periodFormat"></el-table-column>
+      <el-table-column prop="Attendance" label="狀態" width="70"></el-table-column>
     </el-table>
-    <el-dialog :visible.sync="dialogVisible" width="50%" custom-class="admin-dialog">
+    <el-dialog :visible.sync="dialogVisible" custom-class="admin-dialog" top="40px" :width="isLow576 ? '80%': '50%'">
       <ul class="fill__confirm-box step1">
         <li v-for="message in detailDialogDisplayMessage" :key="message.key" class="fill__confirm-content-box">
           <h4 class="fill__confirm-title">{{ message.chinese }}</h4>
           <p class="fill__confirm-content">{{ detailData[message.key] }}</p>
         </li>
-        <li class="fill__confirm-content-box">
+        <li class="fill__confirm-content-box fill__confirm-content-box--status">
           <h4 class="fill__confirm-title">狀態</h4>
-          <el-select v-model="detailData.Attendance" class="fill__confirm-content">
+          <el-select v-model="detailData.Attendance" class="fill__confirm-content" popper-class="status">
             <el-option
               v-for="attendance in attendanceElementUISelect"
               :key="attendance.label"
@@ -67,7 +60,6 @@
         </li>
       </ul>
       <div class="button-box">
-        <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button @click="updateRecord">确 定</el-button>
       </div>
     </el-dialog>
@@ -77,10 +69,13 @@
 <script>
 import { getClasses, getStudentInfo, getRecordSearchList, getRecordSearchDetails, updateRecord } from '@/api/staff'
 import defaultSet from '@/mixins/default'
-import { splitTimesToStartAndEnd, timeFormat, periodFormat, beforeNoRecordThisAttr } from '@/utils/format'
+import { timeFormat, periodFormat, beforeNoRecordThisAttr } from '@/utils/format'
+import DatePickerTwoInput from '@/components/DatePickerTwoInput'
+import SearchButton from '@/components/SearchButton'
 
 export default {
   mixins: [defaultSet],
+  components: { DatePickerTwoInput, SearchButton },
   data () {
     return {
       classes: [],
@@ -116,6 +111,20 @@ export default {
           value: this.attendancesOrder[attendance]
         }
       })
+    },
+    sortQueryParam () {
+      return {
+        ClassId: this.queryParams.ClassId,
+        StudentId: this.queryParams.StudentId,
+        Attendance: this.queryParams.Attendance,
+        ...this.queryParams.time
+      }
+    },
+    maxTableHeight () {
+      return this.$store.getters.clientHeight - 60 - 120 - 48
+    },
+    isLow576 () {
+      return this.$store.getters.isLow576
     }
   },
   methods: {
@@ -135,16 +144,12 @@ export default {
       this.students = data
     },
     async getRecordSearchList () {
+      console.log(this.sortQueryParam)
       // 處理時間節點
-      const time = splitTimesToStartAndEnd(this.queryParams.time)
+      // const time = splitTimesToStartAndEnd(this.queryParams.time)
       try {
         // 送請求
-        const { data } = await getRecordSearchList({
-          ClassId: this.queryParams.ClassId,
-          StudentId: this.queryParams.StudentId,
-          Attendance: this.queryParams.Attendance,
-          ...time
-        })
+        const { data } = await getRecordSearchList(this.sortQueryParam)
         // 存數據
         this.queryData = data
         this.firstQuery = false
@@ -204,6 +209,15 @@ export default {
     changeParams () {
       if (this.firstQuery) return false
       this.getRecordSearchList()
+    },
+    changeSelect () {
+      if (this.queryFirst) {
+        // this.query()
+      }
+    },
+    handleDatePickerInput (time) {
+      // console.log(time)
+      this.queryParams.time = time
     }
   }
 }
@@ -212,18 +226,9 @@ export default {
 <style scoped>
 .admin-query-box {
   display: flex;
-}
-
-.admin-query-box__params {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.admin-query-box__params > div{
-  vertical-align: top;
-  margin-right: 2rem;
-  margin-bottom: 2rem;
+  justify-content: space-between;
+  max-width: 60rem;
+  margin: 0 auto 0;
 }
 
 .admin-query-box__params .select-class,
@@ -234,6 +239,9 @@ export default {
 </style>
 
 <style>
+.admin-dialog {
+  max-width: 375px;
+}
 .admin-dialog .fill__confirm-title,
 .admin-dialog .fill__confirm-content {
   font-size: 3rem;
@@ -245,5 +253,29 @@ export default {
 }
 .admin-dialog .fill__confirm-content-box:last-child {
   margin-bottom: 0;
+}
+
+.admin-dialog .fill__confirm-content-box--status .el-input {
+  width: 120px;
+}
+
+.el-select-dropdown.el-popper.status {
+  min-width: unset!important;
+  width: 120px;
+}
+
+.el-select-dropdown.el-popper.status ul > li {
+  font-size: 20px;
+  text-align: center;
+}
+
+@media screen and (max-width: 576px) {
+  .admin-dialog .fill__confirm-content-box {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+  .admin-dialog .fill__confirm-content-box--status > h4 {
+    margin-bottom: 10px;
+  }
 }
 </style>

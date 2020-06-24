@@ -40,7 +40,7 @@ export const asyncRoutes = [
     path: '/lecturer',
     component: Layout,
     redirect: '/lecturer/index',
-    meta: { roles: ['lecturer'] },
+    // meta: { roles: ['lecturer'] },
     children: [
       {
         path: 'index',
@@ -63,7 +63,8 @@ export const asyncRoutes = [
     path: '/totur',
     component: Layout,
     redirect: '/totur/index',
-    meta: { title: '導師', icon: 'totur', roles: ['totur'] },
+    meta: { title: '導師', icon: 'totur' },
+    // meta: { title: '導師', icon: 'totur', roles: ['totur'] },
     children: [
       {
         path: 'index',
@@ -140,7 +141,8 @@ export const asyncRoutes = [
     path: '/admin-staff',
     component: Layout,
     redirect: '/admin-staff/edit',
-    meta: { title: '行政人員', icon: 'admin', roles: ['staff'] },
+    meta: { title: '行政人員', icon: 'admin' },
+    // meta: { title: '行政人員', icon: 'admin', roles: ['staff'] },
     children: [
       {
         path: 'edit',
@@ -164,7 +166,8 @@ export const asyncRoutes = [
     path: '/student',
     component: Layout,
     redirect: '/student/index',
-    meta: { title: '學生', icon: 'student', roles: ['student'] },
+    meta: { title: '學生', icon: 'student' },
+    // meta: { title: '學生', icon: 'student', roles: ['student'] },
     children: [
       {
         path: 'index',

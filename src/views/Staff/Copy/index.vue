@@ -30,17 +30,23 @@
     </div>
     <div class="query-result-box">
       <div>
-        <el-table :data="notification" @row-click="showSkipMessage" height="700" class="pointer">
-          <el-table-column prop="Name" label="姓名"></el-table-column>
-          <el-table-column prop="Times" label="次數"></el-table-column>
-          <el-table-column prop="StudentNumber" label="學號" width="130"></el-table-column>
-          <el-table-column prop="Class" label="班級" width="130"></el-table-column>
+        <el-table :data="notification" @row-click="showSkipMessage" :max-height="maxTableHeight" class="pointer">
+          <el-table-column prop="Name" label="姓名" width="80"></el-table-column>
+          <el-table-column prop="Times" label="次數" width="60" align="center" v-if="clientWidthHeight611"></el-table-column>
+          <el-table-column prop="StudentNumber" label="學號" width="107"></el-table-column>
+          <el-table-column prop="Class" label="班級" width="100" v-if="clientWidthHeight611"></el-table-column>
         </el-table>
       </div>
       <div class="select-detail-box" v-if="selectData">
         <div class="select-title">
-          <h3>{{ selectData.Name }}</h3>
-          <div>{{ selectData.Times }}</div>
+          <div class="select-title__studentInfo">
+            <h3 class="select-title__studentInfo--name">{{ selectData.Name }}</h3>
+            <div class="select-title__studentInfo--count">{{ selectData.Times }}</div>
+          </div>
+          <div class="button-box">
+            <el-button @click="allSelect">全選</el-button>
+            <el-button @click="cancelAllSelect">取消</el-button>
+          </div>
         </div>
         <ul class="leave-box">
           <li v-for="(skipData, index) in selectData.result" :key="index" @click="selectCopyUnit(skipData)">
@@ -53,10 +59,6 @@
             <div class="select" v-show="skipData.select"></div>
           </li>
         </ul>
-        <div>
-          <el-button @click="allSelect">全部選取</el-button>
-          <el-button @click="cancelAllSelect">全部取消</el-button>
-        </div>
       </div>
     </div>
   </div>
@@ -94,6 +96,17 @@ export default {
       return Object.keys(this.selectCopy)
         .sort((a, b) => a - b)
         .map(studentID => ({ studentID, data: this.selectCopy[studentID] }))
+    },
+    maxTableHeight () {
+      if (this.$store.getters.clientWidth > 768) {
+        return this.$store.getters.clientHeight - 60 - 56 - 40
+      } else {
+        console.log(this.$store.getters.clientHeight - 60 - 40 - 106)
+        return this.$store.getters.clientHeight - 60 - 106 - 40
+      }
+    },
+    clientWidthHeight611 () {
+      return this.$store.getters.clientWidth >= 611
     }
   },
   methods: {
@@ -200,14 +213,26 @@ export default {
 </script>
 
 <style scoped>
-/* 頭部 */
-.copy-container .copy-header {
-  display: flex;
+.copy-container {
+  height: 100%;
 }
 
-.copy-header .el-date-editor,
-.gener-notice-box > span {
-  margin-right: 2rem;
+/* 頭部 */
+.copy-header {
+  display: flex;
+  justify-content: space-between;
+  max-width: 768px;
+  margin: 0 auto 0;
+}
+
+.copy-header .el-date-editor {
+  margin-bottom: 1rem;
+}
+
+.gener-notice-box {
+  width: 35rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .gener-notice-box .select-icon {
@@ -231,13 +256,33 @@ export default {
 /* 身體 */
 .query-result-box {
   display: flex;
+  max-width: 990px;
+  margin: 0 auto 0;
+  height: calc(100% - 56px)
 }
 
 .select-detail-box {
   flex: 1;
+  height: 100%;
+  max-width: 64rem;
 }
 
-.select-detail-box .select-title > div {
+.select-detail-box .select-title {
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.select-detail-box .select-title .select-title__studentInfo {
+  display: flex;
+  margin-right: 20px;
+  width: 140px;
+}
+
+.select-detail-box .select-title .select-title__studentInfo--name {
+  line-height: 56px;
+}
+
+.select-detail-box .select-title .select-title__studentInfo--count {
   background: #e33c3c;
   color: white;
   line-height: 3rem;
@@ -250,15 +295,28 @@ export default {
 .select-detail-box .leave-box {
   display: flex;
   flex-wrap: wrap;
+  max-height: calc(100% - 112px - 10px);
+  overflow: auto;
+
+  padding-left: 10px;
+  padding-top: 10px;
 }
 
 .select-detail-box .leave-box > li {
   background: #e33c3c;
   padding: 1rem;
-  min-width: 20rem;
+  width: 20rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
   position: relative;
+  height: 146px;
+  overflow: auto;
+  cursor: pointer;
+}
+
+.select-detail-box .leave-box > li .leave-detail-title {
+  min-width: 60px;
+  height: 37px;
 }
 
 .select-detail-box .leave-box .select {
@@ -268,14 +326,11 @@ export default {
   background: var(--main-yellow);
 
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 1rem;
+  left: 1rem;
   transform: translate(-50%, -50%);
 }
 
-.select-title {
-  display: flex;
-}
 .leave-detail {
   display: flex;
   margin-bottom: .5rem;
@@ -285,6 +340,51 @@ export default {
   background: black;
   color: white;
   margin-right: 1rem;
+}
+
+@media screen and (max-width: 1097px) {
+  .select-detail-box {
+    max-width: 43rem;
+  }
+  .query-result-box {
+    max-width: 777px;
+  }
+}
+@media screen and (max-width: 817px) {
+  .select-detail-box {
+    max-width: 224px;
+  }
+  .query-result-box {
+    max-width: 571px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .copy-header {
+    display: block;
+    width: 350px;
+    margin: 0 auto 0;
+  }
+  .query-result-box {
+    height: calc(100% - 106px)
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .query-result-box {
+    max-width: 411px;
+  }
+}
+
+@media screen and (max-width: 451px) {
+  .button-box {
+    display: none;
+  }
+  .select-detail-box .select-title {
+    margin-bottom: 0;
+  }
+  .select-detail-box .leave-box {
+    max-height: calc(100% - 56px)
+  }
 }
 </style>
 

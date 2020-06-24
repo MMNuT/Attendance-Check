@@ -1,6 +1,7 @@
 <template>
   <div class="c-head">
     <Burger @toggleCollapse="$listeners.toggleCollapse"/>
+    <!-- <EggCake /> -->
     <Breadcrumb/>
     <div class="head__headRightInfo">
       <el-button class="head__headRightInfoLogoutButton" @click="logout">Logout</el-button>
@@ -11,6 +12,7 @@
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
 import Burger from './Burger'
+// import EggCake from './EggCake'
 
 export default {
   components: { Breadcrumb, Burger },
