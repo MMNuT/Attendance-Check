@@ -138,9 +138,9 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/admin-staff',
+    path: '/staff',
     component: Layout,
-    redirect: '/admin-staff/edit',
+    redirect: '/staff/edit',
     // meta: { title: '行政人員', icon: 'admin' },
     meta: { title: '行政人員', icon: 'admin', roles: ['staff'] },
     children: [
@@ -204,7 +204,7 @@ export const asyncRoutes = [
       }
     ]
   }
-  // { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/', hidden: true }
 ]
 
 const router = new VueRouter({

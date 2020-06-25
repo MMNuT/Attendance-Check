@@ -22,6 +22,10 @@
   justify-content: flex-end;
 }
 
+.deduction-detail-box {
+  width: 64rem;
+}
+
 .business-card .student-info-box li {
   display: flex;
   margin-bottom: .5rem;

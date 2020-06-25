@@ -48,9 +48,6 @@
 <script>
 import { getPermission } from '@/api/user'
 import { URLSearchParamsformat } from '@/utils/format'
-import router from '@/router'
-// import { mapGetters } from 'vuex'
-console.log(router)
 
 export default {
   created () {
@@ -96,13 +93,12 @@ export default {
         case '02':
           return '/totur'
         case '03':
-          return '/admin-staff'
+          return '/staff'
         case '04':
           return '/student'
       }
       return '/'
     }
-    // ...mapGetters(['roles'])
   },
   filters: {
     justTwoWord (val) {
@@ -157,6 +153,7 @@ export default {
         await this.$store.dispatch('user/login', params)
         console.log(this.$route.query.redirect, this.initPath)
         // 成功就跳轉
+        // this.$_turnOut()
         await this.$router.push({ path: this.$route.query.redirect || `${this.initPath}` })
       } catch (error) {
         console.log(error)

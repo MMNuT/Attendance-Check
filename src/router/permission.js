@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 const whiteList = ['/login']
 
 router.beforeEach(async (to, from, next) => {
-  // console.log(to.path, 123123)
+  console.log(to.path, store.getters.roles)
   const hasToken = getToken()
   // 有 TOKEN
   if (hasToken) {
@@ -21,7 +21,12 @@ router.beforeEach(async (to, from, next) => {
         // console.log(to.path, router)
         // 重定向根目錄到權限第一套路由
         if (to.path === '/') {
-          next({ path: '/' + store.getters.roles[0] })
+          return next({ path: '/' + store.getters.roles[0] })
+        }
+        const tmp = to.path.substr(1).split('/')[0]
+        if (!store.getters.roles.includes(tmp) && to.path !== '/404' && tmp !== 'copy') {
+          // next('/')
+          return next('/')
         }
         // 放行
         next()

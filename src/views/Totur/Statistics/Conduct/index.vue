@@ -1,15 +1,19 @@
 <template>
   <div class="conduct-container">
-    <div>
+    <div class="student-list-box">
       <el-table
         :data="performanceScore"
         style="width: 100%"
-        max-height="700"
+        :max-height="tableMaxHeight"
         @row-click="displayDetail"
         class="pointer">
-        <el-table-column prop="Name" label="姓名"></el-table-column>
-        <el-table-column prop="StudentNumber" label="學號" width="120px"></el-table-column>
-        <el-table-column prop="Deduction" label="操行分數" width="120px"></el-table-column>
+        <template #empty>
+          <p>等待, </p>
+          <p>我隨時隨地在等待</p>
+        </template>
+        <el-table-column prop="Name" label="姓名" width="80"></el-table-column>
+        <el-table-column prop="StudentNumber" label="學號" width="110"></el-table-column>
+        <el-table-column prop="Deduction" label="操行分數" width="100"></el-table-column>
       </el-table>
     </div>
     <div v-if="displayDetailData" class="show-detail-box">
@@ -93,6 +97,12 @@ export default {
       ]
     }
   },
+  computed: {
+    tableMaxHeight () {
+      console.log(this.$store.getters.clientHeight - 60 - 40)
+      return this.$store.getters.clientHeight - 60 - 40
+    }
+  },
   created () {
     this.getPerformanceScore()
   },
@@ -124,10 +134,37 @@ export default {
 
 <style scoped>
 @import './style/business-card.css';
+.conduct-container {
+  height: 100%;
+  display: flex;
+}
 
+.conduct-container .student-list-box {
+  margin-right: 10px;
+}
+
+.rules-box {
+  color: var(--main-black);
+  min-width: 353px;
+}
+
+.rules-box .rule {
+  font-size: 2.2rem;
+  display: flex;
+}
+
+.rules-box .rule > dt {
+  min-width: 8rem;
+}
+
+.rules-box .rule .ruleContent dl > dd {
+  margin-left: 2rem;
+}
+/*
 .show-detail-box {
   max-width: 70rem;
   margin-left: 1rem;
+  height: 100%;
 }
 
 .conduct-container {
@@ -151,4 +188,5 @@ export default {
 .ruleContent dl > dd {
   margin-left: 2rem;
 }
+*/
 </style>
