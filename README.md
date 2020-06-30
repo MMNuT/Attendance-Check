@@ -6,6 +6,8 @@
 > 以往點名皆須以各班紙本點名，行政人員手動 KeyIn ，造成不便，為解決校務紙本點名問題，開發此 DEMO作品
 > 本專案僅含前端代碼，使用 Vue2 框架完成
 
+> 已上線網址: http://eattendance.rocket-coding.com/index.html#/login
+
 ### 安裝與執行DEMO
 ---
 
