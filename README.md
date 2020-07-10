@@ -12,7 +12,7 @@
 ---
 
 ```
-$ git clone git@github.com:RaccooNut/Attendance-Check.git
+$ git clone git@github.com:MMNuT/Attendance-Check.git
 $ cd Attendance-Check
 $ git i
 $ git run serve
